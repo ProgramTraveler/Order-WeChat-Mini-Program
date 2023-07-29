@@ -1,0 +1,5 @@
+/**index.wxss**/
+
+.scrollview {
+  height: 100vh;
+}
