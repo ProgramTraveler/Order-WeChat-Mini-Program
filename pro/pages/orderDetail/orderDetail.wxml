@@ -1,0 +1,43 @@
+<view class="whiteSpace">订单详情</view>
+<view class="main">
+<view class="box">
+
+  <view class="eachOne" wx:for="{{orderDetail.drinkList}}" wx:key="index" >
+
+    <view class="pic">
+      <image class="img" src="{{item.drinkImage}}" ></image>
+    </view>
+    
+    <view class="drinkNameAndInfo" >  
+      <view class="drinkName">
+        {{item.drinkName}}
+      </view>
+      <view class="drinkInfo">
+        {{item.drinkInfo}}
+      </view>
+  
+    </view>
+    
+    <view class="drinkNum">
+      x{{item.drinkNum}}
+    </view>
+    <view class="drinkPrice">
+      ￥{{item.drinkPrice}}
+    </view>
+  </view>
+
+  <view class="total">
+  <view class="label">合计</view>
+  <view class="sum">￥{{orderDetail.total}}</view>
+  </view>
+
+  <view class="other" style="white-space:pre-wrap">下单时间：{{orderDetail.time}}
+订单编号：{{orderDetail.orderId}}
+地址：{{orderDetail.address}}
+姓名：{{orderDetail.name}}
+电话：{{orderDetail.phonenum}}
+  </view>
+
+</view>
+
+</view>
