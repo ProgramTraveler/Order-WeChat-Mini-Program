@@ -35,7 +35,8 @@
 * 主前端界面框架的搭建
 * 对登录日志的记录
 * 首页、点单、购物车、订单、用户个人界面的编写 暂时还未完善
-* 套用的模板 <img src="imges/home.png" alt="img" style="zoom: 100%">
+* 套用的模板 
+* <img src="imges/home.png" alt="img" style="zoom: 100%">
 * 页面与页面之间可以正常跳转
 * 文件结构？
 
