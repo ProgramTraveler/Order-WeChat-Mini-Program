@@ -1,3 +1,8 @@
 {
-  "usingComponents": {}
-}
+  "usingComponents": {
+    "searchInput" : "../../components/searchInput/searchInput"
+  },
+  "navigationBarTitleText": "美时美客首页",
+  "enablePullDownRefresh":true,
+  "backgroundTextStyle":"dark"
+} 

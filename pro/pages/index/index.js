@@ -1,118 +1,126 @@
-// index.js
+//Page Object
+var getIdUtil = require('../../utils/getId.js')
+const DB = wx.cloud.database();
 Page({
-  /**
-   * 页面的初始数据
-   */
   data: {
-    recommendedMilktea: "",
-    // 单击后需要跳转至详情页面的奶茶id
-    selectedMilkteaId: "",
-    bannerImgUrl1:"",
-    bannerImgUrl2:"",
-    bannerImgUrl3:""
+    cat_name_icon:[],
+    slideshow:[],
+    recommandShow:[],
+
+    loadMore: false, //"上拉加载"的变量，默认false，隐藏  
+    loadAll: false, //“没有数据”的变量，默认false，隐藏
   },
 
-  //获取Banner
-  getBanner: function () {
-    wx.request({
-      url: getApp().globalData.apiHost + '/getBannerImgUrl',
-      success: (result) => {
-        console.log("获取Banner")
-        console.log(result)
+  currentPage : 0, // 当前第几页,0代表第一页 
+  pageSize : 20, //每页显示多少数据 
+  onLoad(){
+    var slideshow = []
+    slideshow.push("cloud://supermarket-2pc4d.7375-supermarket-2pc4d-1302433998/轮播图/轮播图1.jpg")
+    this.setData({
+      slideshow
+    })
+    wx.cloud.callFunction({
+      name :"getClasssfyMsg",
+    }).then(res=>{
+      var cat_name_icon =[]
+      res.result.data.forEach(element => {
+        if(element.cat_name==='积分商品')return
+        var cat = {'cat_name':element.cat_name,'cat_icon':element.cat_icon}
+        cat_name_icon.push(cat)
+      });
+      this.setData({
+        cat_name_icon
+      })
+      console.log(cat_name_icon)
+    })
+
+    this.getRecommandGoods()
+    wx.stopPullDownRefresh();
+   
+  },
+
+
+  getRecommandGoods(){
+     var that = this
+
+      //第一次加载数据
+      if (this.currentPage == 1) {
         this.setData({
-          bannerImgUrl1: result.data.data[0].image,
-          bannerImgUrl2: result.data.data[1].image,
-          bannerImgUrl3: result.data.data[2].image
+          loadMore: true, //把"上拉加载"的变量设为true，显示  
+          loadAll: false //把“没有数据”设为false，隐藏  
         })
       }
-    })
+        //根据销量获得商品
+      wx.cloud.callFunction({
+        name:'getRecommandGoods',
+        data:{
+          currentPage:this.currentPage , //从第几个数据开始
+          pageSize:this.pageSize
+        }
+      }).then(res=>{
+        console.log(res)
+        if (res.result.data && res.result.data.length > 0) {
+          console.log("请求成功", res.result.data)
+          that.currentPage++
+          var recommandShow = res.result.data
+          
+          console.log(recommandShow)
+          //把新请求到的数据添加到dataList里  
+          recommandShow = that.data.recommandShow.concat(recommandShow)
+          that.setData({
+            recommandShow, //获取数据数组    
+            loadMore: false //把"上拉加载"的变量设为false，显示  
+          });
+          if (recommandShow.length < that.pageSize) {
+            that.setData({
+              loadMore: false, //隐藏加载中。。
+              loadAll: true //所有数据都加载完了
+            });
+          }
+        } else {
+          that.setData({
+            loadAll: true, //把“没有数据”设为true，显示  
+            loadMore: false //把"上拉加载"的变量设为false，隐藏  
+          });
+        }
+      })
   },
 
-  // 为你推荐
-  recommend: function () {
-    wx.request({
-      url: getApp().globalData.apiHost + '/recommend',
-      success: (result) => {
-        console.log("为你推荐奶茶数据：")
-        console.log(result)
-        this.setData({
-          recommendedMilktea: result.data
-        })
-      }
-    })
+  onReachBottom: function() {
+    console.log("上拉触底事件")
+    let that = this
+    if (!that.data.loadMore) {
+      that.setData({
+        loadMore: true, //加载中  
+        loadAll: false //是否加载完所有数据
+      });
+
+      //加载更多，这里做下延时加载
+      setTimeout(function() {
+        that.getRecommandGoods()
+      }, 2000)
+    }
   },
 
-  showDetail: function (e) {
-    var selectedMilkteaId = e.currentTarget.dataset.id
-    wx.request({
-      url: getApp().globalData.apiHost + '/selectOneMilktea',
-      data: {
-        id: selectedMilkteaId
+  //跳转到商品分类
+  toShowGoods(e){
+
+    wx.setStorageSync("fromOne", true);
+    const {index} = e.currentTarget.dataset
+   getApp().globalData.index= index 
+    wx.switchTab({
+      url: '/pages/category/index',
+      success: (result)=>{
+        
       },
-      success: (result) => {
-        // 跳转到奶茶详情页面
-        wx.navigateTo({
-          url: '../milkteaDetail/milkteaDetail?milktea=' + JSON.stringify(result.data),
-        })
-      }
-    })
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    console.log("全局apiHost:" + getApp().globalData.apiHost)
-
+      fail: ()=>{},
+      complete: ()=>{}
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.getBanner()
-    this.recommend()
-    console.log("登录页缓存中的openid："+wx.getStorageSync('openid'))
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onPullDownRefresh(){
+    this.onLoad();
   }
-})
+
+
+});

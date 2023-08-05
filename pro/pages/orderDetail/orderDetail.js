@@ -5,90 +5,62 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orderDetail:"",
-    imgList:[]
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    console.log(JSON.parse(options.orderDetail))
-    this.setData({
-      orderDetail: JSON.parse(options.orderDetail)
-    })
-    var tmp = this.data.orderDetail;
-    //console.log(tmp[i].orderTime);  //2019-01-21T06:25:50.000Z
-    var d = new Date(tmp.time);
-    //console.log(d);   //Sun Jan 20 2019 16:43:42 GMT+0800
-    //console.log(d.getTime());  //这个全输入时间戳
-    var y = d.getFullYear();
-    var mon = d.getMonth() + 1;
+  onLoad(options) {
 
-    var day = d.getDate();
-    var h = d.getHours();//12
-    var m = d.getMinutes(); //12
-    var s = d.getMinutes();
-    if (h < 10) {
-      h = "0" + h;
-    }
-    if (m < 10) {
-      m = "0" + m;
-    }
-    tmp.time = y + '/' + mon + '/' + day + ' ' + h + ':' + m + ':' + s
-      console.log(tmp.drinkList)
-      
-    this.setData({
-      orderDetail: tmp
-    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage() {
 
   }
 })
