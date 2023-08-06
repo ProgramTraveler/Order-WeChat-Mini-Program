@@ -1,8 +1,0 @@
-<view class="search_input">
-  <navigator 
-  hover-class="none"
-  url="/pages/search/index" open-type="navigate">
-    搜索 
-  </navigator> 
-    
-</view> 
