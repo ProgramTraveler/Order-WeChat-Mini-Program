@@ -7,6 +7,7 @@
 <!--右边详情物品  -->
     <scroll-view class="categroy-right" scroll-y="{{isScroll}}" scroll-into-view="{{toView}}" scroll-with-animation="true">
          <block wx:for="{{detail}}" wx:for-index wx:key="idx">
+          <!-- 图片 + 文字 -->
             <view id="{{item.id}}" class="cate-box">
                 <view class="cate-banner">
                     <image src="{{item.banner}}"></image>
@@ -14,6 +15,7 @@
                 <view class="cate-title">
                     <text>{{item.cate}}</text>
                 </view>
+                <!-- 商品显示 -->
                 <view class="product">
                     <view class="product-list" wx:for="{{item.detail}}" wx:key="index" wx:for-item="val">
                         <view bindtap='redTo' data-value="{{val}}">

@@ -159,10 +159,12 @@ Page({
   },
 
   redTo: function(e) {
-    let shopid = e.currentTarget.dataset.shop
-    console.log(shopid)
+    let shopnum = e.currentTarget.dataset.shop // 获取设置的 data-shop="{{item.num}}" 的值
+    console.log(shopnum)
     wx.navigateTo({ // 页面跳转
-      url: 'category/category?d='+shopid
+      url: 'category/category?d='+shopnum // 将 shopnum 作为参数 d 传入
+      // 直接跳转到商品详情页面
+      // url: '../details/details?d='+shopnum
     })
   },
 })
