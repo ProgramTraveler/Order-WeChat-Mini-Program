@@ -298,7 +298,7 @@ Page({
       shopdetail = JSON.stringify(shopdetail)
       // 页面跳转
       wx.navigateTo({
-        url: '../details/details?d=' + shopdetail
+        url: '../details/details?d='+shopdetail
       })
     }
     

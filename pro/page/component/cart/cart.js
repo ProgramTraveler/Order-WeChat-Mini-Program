@@ -12,6 +12,7 @@ Page({
   onShow() {
     console.log('cart_onshow')
     let _this = this
+    
     wx.getStorage({
       key: 'card',
       success: function (res) {
@@ -21,8 +22,13 @@ Page({
         })
         _this.getTotalPrice();
       },
+      fail: function () {
+        _this.setData({
+          hasList: false,
+        })
+      }
     })
-    
+
   },
   /**
    * 当前商品选中事件
@@ -32,9 +38,11 @@ Page({
     let carts = this.data.carts;
     const selected = carts[index].selected;
     carts[index].selected = !selected;
+
     this.setData({
       carts: carts
     });
+
     this.getTotalPrice();
   },
 
@@ -45,9 +53,16 @@ Page({
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
     carts.splice(index,1);
+
+    wx.setStorage({ // 将删除后的操作进行保存
+      key:'card',
+      data:carts
+    })
+
     this.setData({
       carts: carts
     });
+
     if(!carts.length){
       this.setData({
         hasList: false
@@ -115,6 +130,13 @@ Page({
   getTotalPrice() {
     let carts = this.data.carts;                  // 获取购物车列表
     let total = 0;
+
+    if (!carts.length) { // 对购物车是否为空 进行判断
+      this.setData({
+        hasList: false
+      })
+    }
+
     for(let i = 0; i<carts.length; i++) {         // 循环列表得到每个数据
       if(carts[i].selected) {                     // 判断选中才会计算价格
         total += carts[i].num * carts[i].price;   // 所有价格加起来

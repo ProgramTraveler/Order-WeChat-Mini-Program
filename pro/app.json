@@ -30,7 +30,7 @@
       "pagePath": "page/component/cart/cart",
       "iconPath": "image/32.png",
       "selectedIconPath": "image/31.png",
-      "text": "购物车"
+      "text": "订单"
     }, {
       "pagePath": "page/component/user/user",
       "iconPath": "image/42.png",

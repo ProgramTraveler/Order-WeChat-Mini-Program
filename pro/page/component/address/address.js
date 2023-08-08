@@ -19,6 +19,7 @@ Page({
       }
     })
   },
+  
   formSubmit(e){
     const value = e.detail.value;
     if (value.name && value.phone && value.detail){
