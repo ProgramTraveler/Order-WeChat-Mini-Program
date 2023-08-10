@@ -38,7 +38,7 @@ Page({
     let carts = this.data.carts;
     const selected = carts[index].selected;
     carts[index].selected = !selected;
-
+    
     this.setData({
       carts: carts
     });
@@ -99,6 +99,12 @@ Page({
     let num = carts[index].num;
     num = num + 1;
     carts[index].num = num;
+
+    wx.setStorage({ // 将加数量后的操作进行保存
+      key:'card',
+      data:carts
+    })
+
     this.setData({
       carts: carts
     });
@@ -118,6 +124,11 @@ Page({
     }
     num = num - 1;
     carts[index].num = num;
+    wx.setStorage({ // 将减数量后的操作进行保存
+      key:'card',
+      data:carts
+    })
+
     this.setData({
       carts: carts
     });

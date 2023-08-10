@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
           }
         },
       })
-    return result
+    return result.errCode
   } catch (err) {
     return err
   }

@@ -94,78 +94,45 @@ Page({
       this.onShow();
 
     } else {
-      // 下单成功提示
-      wx.showToast({
-        title: 'title',
-        complete() {
-            wx.switchTab({
-            url: '/page/component/index'
-          })
+
+      /**
+       * 获取时间
+       */
+      let dataTime; // 下单时间
+      let yy = new Date().getFullYear();
+      let mm = new Date().getMonth()+1;
+      let dd = new Date().getDate();
+      let hh = new Date().getHours();
+      let mf = new Date().getMinutes()<10?'0'+new Date().getMinutes():
+        new Date().getMinutes();
+      let ss = new Date().getSeconds()<10?'0'+new Date().getSeconds():
+        new Date().getSeconds();
+      dataTime = `${yy}-${mm}-${dd} ${hh}:${mf}:${ss}`;
+
+      // 将订单添加到 订单管理 数据库
+      wx.cloud.database().collection('buy_orders').add({
+        data: {
+          // 订单总价
+          total: this.data.total,
+          // 订单内容
+          content: this.data.content,
+          // 订单时间
+          time: dataTime,
         },
       })
-      // ({
-      //   title: '提示',
-      //   content: '下单成功',
-      //   text:'center',
-      //   complete() {
-      //       wx.switchTab({
-      //       url: '/page/component/index'
-      //     })
-      //   },
-      // })
 
-      // 在点击下单后 对购物车中的内容进行清空
-      try {
-        wx.removeStorageSync('card');
-        console.log('删除成功');
-      } catch(e) {
-        console.log('删除失败', e);
-      }
+      // 将下单用户信息放入 用户集合数据库
+      wx.cloud.database().collection('user').add({
+        data: {
+          // 用户信息
+          name: this.data.address.name,
+          phone: this.data.address.phone,
+          address: this.data.address.detail,
+        },
+      })
 
-      this.subscribeMessage();
-
+      this.subscribeMessage(); // 订阅请求
       this.sendSubMsgTab(); // 调用云函数
-
-      // console.log(this.data.address);
-      // console.log(this.data.orders);
-      // 将订单添加到数据库
-      // let ord = this.data.orders;
-      // wx.cloud.database().collection('buy_orders').add({
-      //   data: {
-      //     // 用户信息
-      //     userName: this.data.address.name,
-      //     userPhon: this.data.address.phon,
-      //     userAddress: this.data.address.detail,
-      //   },
-      // }).then(res=>{
-      //   wx.showToast({
-      //     title: '订单已发送',
-      //   })
-      // })
-
-      // ord.forEach(product=>{
-      //   wx.cloud.database().collection('buy_orders').add({
-      //     data: product
-      //   }).then(res => {
-      //     console.log('插入成功', res)
-      //   }).catch(err => {
-      //     console.error('插入失败', err)
-      //   })
-      // })
-      
-      
-
-
-
-      // 商品信息
-      // Promise.all(ord.map(item => wx.cloud.database().collection('buy_orders').add({ data: item })))
-      // .then(res => {
-      //     console.log('订单商品添加成功', res);
-      // })
-      // .catch(err => {
-      //   console.error('订单商品添加失败', err);
-      // })
-
     }
   },
 
@@ -175,10 +142,10 @@ Page({
           'IxziSPpyaNVxA-oiyJQJCPNW0pgtpvCqc6frOR7bhww'
       ],
       success(res) {
-        console.log('订阅消息成功', res)
+        console.log('订阅模板消息成功', res)
       },
       fail(res) {
-        console.log('订阅消息失败', res)
+        console.log('订阅模板消息失败', res)
       }
     })
   },
@@ -207,10 +174,39 @@ Page({
       },
 
       success(res) {
-        console.log("调用下发服务通知云函数成功", res)
+        // console.log("调用下发服务通知云函数成功", res)
+        // 下单成功提示
+        title: '下单成功',
+        wx.showToast({
+          complete() {
+              wx.switchTab({
+              url: '/page/component/orders/orders'
+            })
+          },
+
+        })
+
+        // 在点击下单后 对购物车中的内容进行清空
+        try {
+          wx.removeStorageSync('card');
+          console.log('删除成功');
+        } catch(e) {
+          console.log('删除失败', e);
+        }
+
       },
       fail(err) {
         console.log("调用下发服务通知云函数失败", err)
+        // 下单失败提示
+        wx.showToast({
+          title: '下单失败',
+          icon: 'error',
+          complete() {
+              wx.switchTab({
+              url: '/page/component/orders/orders'
+            })
+          },
+        })
       }
     }),
 
@@ -235,13 +231,6 @@ Page({
         // 订单内容
         order_content: this.data.content,
       },
-
-      success(res) {
-        console.log("调用下发服务通知云函数成功", res)
-      },
-      fail(err) {
-        console.log("调用下发服务通知云函数失败", err)
-      }
     })
   },
 })
