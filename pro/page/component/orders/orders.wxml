@@ -3,7 +3,7 @@
         <view wx:if="{{hasAddress}}" class="orders-address">
             <text class="orders-address-name">收货人: {{address.name}}</text>
             <text class="orders-address-phone">电话: {{address.phone}}</text>
-            <view class="orders-address-detail">{{address.detail}}</view>
+            <view class="orders-address-detail">地址：{{address.detail}}</view>
         </view>
         <view wx:else class="orders-no-address">添加收货地址</view>
     </navigator>

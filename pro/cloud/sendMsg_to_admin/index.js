@@ -3,11 +3,11 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV,
 })
 /**
- * 给用户发布订阅消息
+ * 给管理员发布订阅消息
  */
 exports.main = async (event, context) => {
   // console.log("传入的参数为", event);
-  const wxContext = cloud.getWXContext(); // 获取用户的 openid
+  // const wxContext = cloud.getWXContext(); // 获取用户的 openid
   
   const userName = event.userName;
   const userPhone = event.userPhone;
@@ -18,8 +18,8 @@ exports.main = async (event, context) => {
 
   try {
     const result = await cloud.openapi.subscribeMessage.send({
-        // "touser": 'oWh6F6_eEG-pN2QtPL0fYDRJq9KA',
-        "touser": wxContext.OPENID,
+        "touser": 'oWh6F6_eEG-pN2QtPL0fYDRJq9KA',
+        // "touser": wxContext.OPENID,
         "page": 'index',
         "templateId": 'IxziSPpyaNVxA-oiyJQJCPNW0pgtpvCqc6frOR7bhww',
         // "miniprogramState": 'developer',
@@ -34,7 +34,7 @@ exports.main = async (event, context) => {
             // "value": "测试"
           },
           "name8": { // 联系人姓名
-            "value": userName
+            "value": userName + 'admin'
             // "value": 'wjm'
           },
           "phone_number16": { // 联系人手机号

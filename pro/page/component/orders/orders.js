@@ -1,11 +1,12 @@
 // page/component/orders/orders.js
 Page({
   data:{
-    address:{},
+    address: {},
     hasAddress: false,
-    total:0,
+    total: 0,
     orders: [], // 订单内容
-    carts: [] // 订单内容
+    carts: [], // 购物车内容
+    content: '', // 商品内容和商品数量
     // orders:[
     //     {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
     //     {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03}
@@ -14,6 +15,8 @@ Page({
 
   onReady() {
     this.getTotalPrice();
+
+    this.getOrdersContent();
   },
   
   onShow:function(){
@@ -50,6 +53,28 @@ Page({
     this.setData({
       total: total
     })
+  },
+
+  /**
+   * 组合订单内容
+   */
+  getOrdersContent() {
+    let orders = this.data.orders;
+    let content = '';
+    for (let i = 0; i < orders.length; i ++) {
+      // console.log("orders内容" + orders[i]);
+      content += orders[i].title;
+      content += '*';
+      content += orders[i].num;
+      content += ';';
+    }
+
+    this.setData({
+      content: content
+    })
+
+    // console.log("订单内容" + content);
+    // console.log("电话" + this.data.address.phone);
   },
 
   toPay() {
@@ -158,11 +183,27 @@ Page({
     })
   },
 
-  sendSubMsgTab() {
-    wx.cloud.callFunction({
+  sendSubMsgTab() { // 调用订阅云函数
+    wx.cloud.callFunction({ // 发送给用户
       name: "sendSubMsg",
-      data: {
+      data: { // 云函数中传入参数
+        /**
+         * 用户信息
+         */
+        // 用户姓名
+        userName: this.data.address.name,
+        // 用户电话号码
+        userPhone: this.data.address.phone,
+        // 用户地址
+        userAddress: this.data.address.detail,
 
+        /**
+         * 订单信息
+         */
+        // 订单金额
+        order_total: this.data.total,
+        // 订单内容
+        order_content: this.data.content,
       },
 
       success(res) {
@@ -171,9 +212,38 @@ Page({
       fail(err) {
         console.log("调用下发服务通知云函数失败", err)
       }
-    }) 
-  },
+    }),
 
+    wx.cloud.callFunction({ // 发送给管理员
+      name: "sendMsg_to_admin",
+      data: { // 云函数中传入参数
+        /**
+         * 用户信息
+         */
+        // 用户姓名
+        userName: this.data.address.name,
+        // 用户电话号码
+        userPhone: this.data.address.phone,
+        // 用户地址
+        userAddress: this.data.address.detail,
+
+        /**
+         * 订单信息
+         */
+        // 订单金额
+        order_total: this.data.total,
+        // 订单内容
+        order_content: this.data.content,
+      },
+
+      success(res) {
+        console.log("调用下发服务通知云函数成功", res)
+      },
+      fail(err) {
+        console.log("调用下发服务通知云函数失败", err)
+      }
+    })
+  },
 })
 
 // exports.main = async (event, context) => {
