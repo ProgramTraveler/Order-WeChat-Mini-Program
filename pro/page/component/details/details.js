@@ -9,7 +9,10 @@ Page({
     scaleCart: false
   },
   onLoad(option) {
-    let detail = JSON.parse(option.d)
+    console.log("option.d:", option.d)
+    
+    let detail = JSON.parse(decodeURIComponent(option.d));
+    
     console.log(detail)
     this.setData({
       goods: {
@@ -39,7 +42,7 @@ Page({
     const self = this;
     const num = this.data.num;
     let total = this.data.totalNum;
-    // { id: 1, title:'新鲜芹菜 半斤', image:'/image/s5.png', num:4, price:0.01, selected:true },
+  
     wx.getStorage({
       key: 'card',
       success: function (res) {

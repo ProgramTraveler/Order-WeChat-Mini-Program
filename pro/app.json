@@ -6,12 +6,11 @@
       "page/component/user/user",
       "page/component/address/address",
       "page/component/orders/orders",
-      "page/component/details/details",
-      "page/component/list/list"
+      "page/component/details/details"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "外卖栈",
+    "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#AB956D",
     "backgroundColor": "#eeeeee",
     "enablePullDownRefresh": true
@@ -44,5 +43,6 @@
     "uploadFile": 10000,
     "downloadFile": 10000
   },
-  "debug": false
+  "debug": false,
+  "lazyCodeLoading": "requiredComponents"
 }

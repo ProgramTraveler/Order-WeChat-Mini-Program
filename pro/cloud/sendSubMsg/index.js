@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
         // "lang": 'zh_CN',
         "data": {
           "amount4": { // 订单金额
-            "value": order_total
+            "value": order_total + '元'
             // "value": '100'
           },
           "thing6": { // 订单内容

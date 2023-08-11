@@ -21,7 +21,7 @@
   <!--分类菜单  -->
   <!--商铺  -->
   <view class="shop-title">
-    <image src="../../image/icon/recommend.png"></image>
+    <image src="../../image/recommend.png"></image>
     猜你喜欢
   </view>
     <!-- 商品列表的渲染 -->
@@ -32,7 +32,7 @@
     <view class="right">
       <view class='title'>{{item.title}}</view>
       <view class='sell-count'>月销{{item.sellcount}}笔</view>
-      <view class='price'>单价¥：{{item.price}}<span class="space"></span></view>
+      <view class='price'>描述：{{item.content}}<span class="space"></span></view>
       <!-- <view class='detail'>起送¥{{item.startsell}}|配送¥{{item.packagesell}}<span class="space"></span>     {{item.pmin}}分钟|{{item.dist}}米</view> -->
       <!-- <view class='icon'>
         <image wx:for="{{item.shopicon}}" wx:key="item" src="{{item}}"></image>

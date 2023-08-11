@@ -7,10 +7,7 @@ Page({
     orders: [], // 订单内容
     carts: [], // 购物车内容
     content: '', // 商品内容和商品数量
-    // orders:[
-    //     {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01},
-    //     {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03}
-    //   ]
+    datatime: '', // 下单时间
   },
 
   onReady() {
@@ -61,20 +58,34 @@ Page({
   getOrdersContent() {
     let orders = this.data.orders;
     let content = '';
+
+    // 合并相同的内容
+    for (let i = 0; i < orders.length; i ++) {
+      for (let j = i + 1; j < orders.length; j ++) {
+        if (orders[i].title == orders[j].title) {
+          orders[i].num += orders[j].num;
+
+          // 移除相同的元素
+          orders.splice(j, 1);
+        }
+      }
+    }
+
     for (let i = 0; i < orders.length; i ++) {
       // console.log("orders内容" + orders[i]);
-      content += orders[i].title;
-      content += '*';
+      content += orders[i].title.substring(0, 1);
+      if (orders[i].title.indexOf('(') > 0) {
+        content += '*';
+        content += orders[i].title.substring(orders[i].title.indexOf('(') + 1, orders[i].title.indexOf('(') + 2);
+      }
+      content += 'x';
       content += orders[i].num;
-      content += ';';
+      content += '；';
     }
 
     this.setData({
       content: content
     })
-
-    // console.log("订单内容" + content);
-    // console.log("电话" + this.data.address.phone);
   },
 
   toPay() {
@@ -108,6 +119,9 @@ Page({
       let ss = new Date().getSeconds()<10?'0'+new Date().getSeconds():
         new Date().getSeconds();
       dataTime = `${yy}-${mm}-${dd} ${hh}:${mf}:${ss}`;
+      this.setData({
+        datatime: dataTime
+      })
 
       // 将订单添加到 订单管理 数据库
       wx.cloud.database().collection('buy_orders').add({
@@ -128,26 +142,67 @@ Page({
           name: this.data.address.name,
           phone: this.data.address.phone,
           address: this.data.address.detail,
+          time: dataTime,
         },
       })
 
-      this.subscribeMessage(); // 订阅请求
+      if (this.data.content.length > 20) {
+        wx.showModal({
+          title: '提示',
+          content: '购物车中最多三种不同的物品',
+          complete() {
+            wx.switchTab({
+              url: '/page/component/cart/cart'
+            })
+          }
+        })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '下单完成',
+          complete() {
+            setTimeout(function() {
+              wx.switchTab({
+                url: '/page/component/index'
+              })
+            }, 1000) 
+          }
+        })
+      }
+
       this.sendSubMsgTab(); // 调用云函数
+      this.subscribeMessage(); // 订阅请求
     }
   },
 
   subscribeMessage() { // 订阅消息
-    wx.requestSubscribeMessage({
-      tmplIds: [
-          'IxziSPpyaNVxA-oiyJQJCPNW0pgtpvCqc6frOR7bhww'
-      ],
-      success(res) {
-        console.log('订阅模板消息成功', res)
-      },
-      fail(res) {
-        console.log('订阅模板消息失败', res)
-      }
-    })
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '请点击订阅消息 发送订单',
+    //   text: 'center',
+    //   complete() {
+    //     wx.switchTab({
+    //       url: '/page/component/index'
+    //     })
+    //     // setTimeout(function() {
+    //     //   wx.switchTab({
+    //     //     url: '/page/component/index'
+    //     //   })
+    //     // }, 3000);
+    //   }
+    // })
+
+      wx.requestSubscribeMessage({
+        tmplIds: [
+            'IxziSPpyaNVxA-oiyJQJCPNW0pgtpvCqc6frOR7bhww'
+        ],
+        success(res) {
+          console.log('订阅模板消息成功', res)
+        },
+        fail(res) {
+          console.log('订阅模板消息失败', res)
+        }
+      })
   },
 
   sendSubMsgTab() { // 调用订阅云函数
@@ -176,15 +231,6 @@ Page({
       success(res) {
         // console.log("调用下发服务通知云函数成功", res)
         // 下单成功提示
-        title: '下单成功',
-        wx.showToast({
-          complete() {
-              wx.switchTab({
-              url: '/page/component/orders/orders'
-            })
-          },
-
-        })
 
         // 在点击下单后 对购物车中的内容进行清空
         try {
@@ -234,7 +280,3 @@ Page({
     })
   },
 })
-
-// exports.main = async (event, context) => {
-
-// }

@@ -15,8 +15,10 @@
         </view>
     </view>
     <view class="orders-box">
-        <view class="orders">我的订单</view>
-        <view class="orders-list" wx:for="{{orders}}" wx:key="index">
+      <view class="orders">对订单有疑问？请联系 17774352055</view>
+      <view class="orders">或者添加微信号：Cydday7</view>
+        <!-- <view class="orders">我的订单</view> -->
+        <!-- <view class="orders-list" wx:for="{{orders}}" wx:key="index">
             <view class="orders-number">订单编号：{{item.number}}</view>
             <view class="orders-detail">
                 <image src="{{item.thumb}}"></image>
@@ -28,6 +30,6 @@
                 <text>实付：￥{{item.money}}</text>
                 <button size="mini" class="orders-btn" bindtap="payOrders">付款</button>
             </view>
-        </view>
+        </view> -->
     </view>
 </view>

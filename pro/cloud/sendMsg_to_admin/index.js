@@ -18,7 +18,7 @@ exports.main = async (event, context) => {
 
   try {
     const result = await cloud.openapi.subscribeMessage.send({
-        "touser": 'oWh6F6_eEG-pN2QtPL0fYDRJq9KA',
+        "touser": 'oWh6F6_nmm6LYSWBGD0h0v9MwS4U',
         // "touser": wxContext.OPENID,
         "page": 'index',
         "templateId": 'IxziSPpyaNVxA-oiyJQJCPNW0pgtpvCqc6frOR7bhww',
@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
         // "lang": 'zh_CN',
         "data": {
           "amount4": { // 订单金额
-            "value": order_total
+            "value": order_total + '元'
             // "value": '100'
           },
           "thing6": { // 订单内容
@@ -34,7 +34,7 @@ exports.main = async (event, context) => {
             // "value": "测试"
           },
           "name8": { // 联系人姓名
-            "value": userName + 'admin'
+            "value": userName
             // "value": 'wjm'
           },
           "phone_number16": { // 联系人手机号

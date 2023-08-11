@@ -2,7 +2,7 @@ App({
   onLaunch: function () {
     console.log('App Launch')
     wx.cloud.init({
-      env:"cloud1-8g9j0qpq33a49127",
+      env:"",
       traceUser:true
     });
   },

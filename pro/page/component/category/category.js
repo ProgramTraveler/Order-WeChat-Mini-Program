@@ -9,10 +9,10 @@ Page({
       // 判断进入路由参数，进行相应路由渲染
       // 注意传入的 num 是 string 类型的
       if (options.d === '1001') {
-        console.log('可口可乐')
+        console.log('冰沙')
         this.setData({
           category: [
-            { name: '汉堡', id: 'hanbao' },
+            { name: '冰沙', id: 'bingsha' },
             // { name: '套餐', id: 'taocan' },
             // { name: '早餐', id: 'zaocan' },
             // { name: '小食', id: 'xiaoshi' },
@@ -21,40 +21,71 @@ Page({
           ],
           detail: [
             {
-              id: "hanbao",
-              banner: '../../../image/bk/banner.png',
-              cate: '汉堡',
+              // id: "hanbao",
+              id: "bingsha",
+              banner: 'https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/18731691720325960_IMG_20230811_101557.JPG?sign=1a866b50cd2ec1b5a03a2f3f3efda2c3&t=1691721025',
+              // cate: '汉堡',
+              cate:'冰沙',
               detail: [
                 {
-                  id: 'bk1',
-                  thumb: "../../../image/bk/c1.png",
-                  name: "安格斯厚牛堡",
-                  price: 20,
+                  id: 'bs1',
+                  thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/16781691721555919_麻薯芋泥冰.jpg?sign=d39bdf7f241f470d93e4abae2eb87bf1&t=1691723264",
+                  name: "麻薯芋泥冰",
+                  price: 15,
                   stock: '有货',
-                  detail: '这里是安格斯厚牛堡详情。',
+                  detail: '这里是麻薯芋泥冰详情。',
                   parameter: 'test',
                   service: '不支持退货'
                 },
                 {
-                  id: 'bk2',
-                  thumb: "../../../image/bk/c2.png",
-                  name: "德州熏厚牛堡",
-                  price: 25,
+                  id: 'bs2',
+                  thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/18061691721583780_西瓜耶耶.jpg?sign=831dfb11fcaecbc0f6ed9ab0a5fedbea&t=1691723307",
+                  name: "西瓜耶耶(中杯)",
+                  price: 8,
                   stock: '有货',
-                  detail: '这里是德州熏厚牛堡详情。',
+                  detail: '这里是西瓜耶耶详情。',
                   parameter: 'test',
                   service: '不支持退货'
                 },
                 {
-                  id: 'bk3',
-                  thumb: "../../../image/bk/c3.png",
-                  name: "王堡",
-                  price: 25,
+                  id: 'bs3',
+                  thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/19091691721598921_杨枝甘露.jpg?sign=a9ae835b775fb86e63f422ab90962a06&t=1691723340",
+                  name: "杨枝甘露(中杯)",
+                  price: 8,
                   stock: '有货',
-                  detail: '这里是王堡详情。',
+                  detail: '这里是杨枝甘露详情。',
                   parameter: 'test',
                   service: '不支持退货'
-                  
+                },
+                // {
+                //   id: 'bs4',
+                //   thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/16781691721555919_麻薯芋泥冰.jpg?sign=d39bdf7f241f470d93e4abae2eb87bf1&t=1691723264",
+                //   name: "麻薯芋泥冰(大杯)",
+                //   price: 12,
+                //   stock: '有货',
+                //   detail: '这里是麻薯芋泥冰详情。',
+                //   parameter: 'test',
+                //   service: '不支持退货'
+                // },
+                {
+                  id: 'bs4',
+                  thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/18061691721583780_西瓜耶耶.jpg?sign=831dfb11fcaecbc0f6ed9ab0a5fedbea&t=1691723307",
+                  name: "西瓜耶耶(大杯)",
+                  price: 12,
+                  stock: '有货',
+                  detail: '这里是西瓜耶耶详情。',
+                  parameter: 'test',
+                  service: '不支持退货'
+                },
+                {
+                  id: 'bs5',
+                  thumb: "https://636c-cloud1-8g9j0qpq33a49127-1319768573.tcb.qcloud.la/kit-cms-upload/2023-08-11/19091691721598921_杨枝甘露.jpg?sign=a9ae835b775fb86e63f422ab90962a06&t=1691723340",
+                  name: "杨枝甘露(大杯)",
+                  price: 12,
+                  stock: '有货',
+                  detail: '这里是杨枝甘露详情。',
+                  parameter: 'test',
+                  service: '不支持退货'
                 }
               ]
             },
@@ -294,11 +325,12 @@ Page({
     redTo: function(e) {
       // 获取物品详细信息
       let shopdetail = e.currentTarget.dataset.value 
+      console.log("value", shopdetail)
       // 将json对象转化为string 以url get的方式传送数据
       shopdetail = JSON.stringify(shopdetail)
       // 页面跳转
       wx.navigateTo({
-        url: '../details/details?d='+shopdetail
+        url: '../details/details?d='+encodeURIComponent(shopdetail)
       })
     }
     

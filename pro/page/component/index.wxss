@@ -57,8 +57,8 @@ swiper-item image {
   
 }
 .shop-image image {
-  width: 195rpx;
-  height: 145rpx;
+  width: 155rpx;
+  height: 155rpx;
 }
 .right {
   flex: 2;

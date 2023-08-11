@@ -1,5 +1,6 @@
 <view class="main">
     <view wx:if="{{hasList}}">
+      <view class="cart-no-data">购物车只能容纳三种不同的商品哦(同种商品不限量)~</view>
         <view class="cart-box">
             <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
                 <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
