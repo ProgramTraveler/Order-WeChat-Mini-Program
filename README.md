@@ -10,7 +10,6 @@
 * 本小程序是基于微信云开发
 * 个人商户无法开启支付功能
 * 所以实现的是到付
-* []()
 
 ## 开发注意事项
 * 请在`project.config.json`中 修改你自己的 appid
@@ -28,6 +27,23 @@
       traceUser:true
     });
 ```
+
+## 使用效果
+
+* 首页
+<img src="images/home_2.png" alt="img" style="zoom: 100%">
+
+* 商品目录
+<img src="images/ca.png" alt="img" style="zoom: 100%">
+
+* 商品详情
+<img src="images/detail.png" alt="img" style="zoom: 100%">
+
+* 购物车
+<img src="images/cart.png" alt="img" style="zoom: 100%">
+
+* 订单
+<img src="images/order.png" alt="img" style="zoom: 100%"> 
 
 ## 开发日期
 
