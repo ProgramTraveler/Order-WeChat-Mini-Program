@@ -10,6 +10,13 @@
 * 本小程序是基于微信云开发
 * 个人商户无法开启支付功能
 * 所以实现的是到付
+* 个人开发不容易（极大可能是不会）通过最后的代码审核 不建议选择
+
+## 网址
+
+* [腾讯云](https://cloud.tencent.com/login?s_url=https%3A%2F%2Fconsole.cloud.tencent.com%2Ftcb%2Fplatform-baas%2Fscf%3FenvId%3Dcloud1-8g9j0qpq33a49127%26rid%3D4%26function%3DsendSubMsg%26reqId%3Dnull%26tabId%3Dfunction)
+* [小程序](https://mp.weixin.qq.com/wxamp/basicprofile/index?token=1268505347&lang=zh_CN)
+* [微信小程序下载以及开发文档](https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html)
 
 ## 开发注意事项
 * 请在`project.config.json`中 修改你自己的 appid
@@ -27,6 +34,7 @@
       traceUser:true
     });
 ```
+* 图片需要更换链接或者你自己本地的文件地址
 
 ## 使用效果
 
